@@ -57,7 +57,7 @@ function configure_vim {
 
 function install_debian_dep {
 	apt-get update
-	apt-get install --assume-yes git gcc ncurses-dev build-essential python3 python3-dev cmake
+	apt-get install --assume-yes git gcc ncurses-dev build-essential python3 python3-dev python3-pip cmake
 	if [ ! $? -eq 0 ]; then
 		echo "[-] Dependencies install failed"
 		exit 1
