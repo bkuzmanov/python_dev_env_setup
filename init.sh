@@ -17,14 +17,14 @@ function build_vim {
 		echo "[-] Vim changed location or removed 'configure' file" >&2
 		exit 1
 	fi
-	
+
 	if [ ! $? -eq 0 ]; then
 		echo "[-] Vim setup configuration failed" >&2
 		exit 1
 	fi
 
 	echo "[+] Installing vim to /usr/local"
-	make install
+	sudo make install
 	if [ ! $? -eq 0 ]; then
 		cd -
 		echo "[-] Vim Build failed" >&2
@@ -34,7 +34,7 @@ function build_vim {
 	cd - > /dev/null
 
 	# Clear vim
-	rm -r /tmp/vim	
+	sudo rm -r /tmp/vim
 }
 
 
@@ -57,7 +57,6 @@ function configure_vim {
 function install_docker {
 	# Add Docker
 	curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
-	sudo apt-key fingerprint 0EBFCD88 | grep "9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88"
 	if [ ! $? -eq 0 ]; then
 		echo "[-] Docker install failed fingerprint not maching"
 		exit 1
@@ -83,6 +82,7 @@ function install_debian_dep {
 		python3 \
 		python3-dev \
 		python3-pip \
+		curl \
 		apt-transport-https \
 		ca-certificates \
 		gnupg-agent \
@@ -96,7 +96,7 @@ function install_debian_dep {
 }
 
 function setup_env {
-	python3 -m pip install virtualenv
+	python3 -m pip install --user virtualenv
 
 	cp $WORK_DIR"/config/bash/bashrc" ~/.bashrc
 	cp $WORK_DIR"/config/bash/bash_aliases" ~/.bash_aliases
